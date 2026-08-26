@@ -1,0 +1,5 @@
+Flask
+Authlib
+firebase-admin
+WeasyPrint
+Werkzeug
