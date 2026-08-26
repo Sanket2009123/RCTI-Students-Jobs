@@ -72,27 +72,16 @@ const count=parseInt(counter.getAttribute("data-count"))||0;
 const speed=25;
 
 if(count<target){
-
 const value=count+Math.ceil(target/speed);
-
 counter.setAttribute("data-count",value);
-
 counter.innerText=value+"+";
-
 requestAnimationFrame(update);
-
 }
-
 else{
-
 counter.innerText=target+"+";
-
 }
-
 };
-
-update();
-
+update()
 });
 // const card=document.querySelector(".login-card");
 
