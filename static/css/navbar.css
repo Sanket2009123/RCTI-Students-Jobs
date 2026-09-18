@@ -18,9 +18,10 @@
 
     padding:0 80px;
 
-    background:linear-gradient(135deg,#1E3A8A,#2563EB);
+    background:linear-gradient(135deg,#0b1736 0%,#153b86 55%,#2457d6 100%);
 
-    /* box-shadow:0 4px 15px rgba(0,0,0,.15); */
+    box-shadow:0 8px 28px rgba(8,24,60,.18);
+    border-bottom:1px solid rgba(255,255,255,.08);
 
     z-index:999;
 
@@ -277,7 +278,7 @@
 
     width:100%;
 
-    background:#1E3A8A;
+    background:#0f2b63;
 
     flex-direction:column;
 

@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("companyCount");
 
     const noResults =
-        document.getElementById("noCompanies");
+        document.getElementById("noCompanySearchResults");
 
     const companyCards =
         document.querySelectorAll(".company-card");

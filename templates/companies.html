@@ -35,7 +35,7 @@ Companies - RCTI Students Jobs Portal
         </h1>
 
         <p>
-            Discover leading companies offering internships,
+            Discover companies offering internships,
             fresher opportunities and full-time career
             opportunities for talented candidates.
         </p>
@@ -152,21 +152,21 @@ Companies - RCTI Students Jobs Portal
 
                     <span>Popular:</span>
 
-                    <button type="button" data-search="TCS">
-                        TCS
+                    {% if companies %}
+
+                    {% for company in companies[:4] %}
+
+                    <button type="button" data-search="{{ company.company_name }}">
+                        {{ company.company_name }}
                     </button>
 
-                    <button type="button" data-search="Infosys">
-                        Infosys
-                    </button>
+                    {% endfor %}
 
-                    <button type="button" data-search="Wipro">
-                        Wipro
-                    </button>
+                    {% else %}
 
-                    <button type="button" data-search="HCL">
-                        HCL
-                    </button>
+                    <span>No companies available</span>
+
+                    {% endif %}
 
                 </div>
 
@@ -176,7 +176,7 @@ Companies - RCTI Students Jobs Portal
                     <i class="fa-solid fa-building"></i>
 
                     <strong id="companyCount">
-                        20
+                        {{ companies|length }}
                     </strong>
 
                     <span>
@@ -218,7 +218,7 @@ Companies - RCTI Students Jobs Portal
                 </h2>
 
                 <p>
-                    Explore our partner companies and discover
+                    Explore registered companies and discover
                     exciting career opportunities.
                 </p>
 
@@ -229,7 +229,7 @@ Companies - RCTI Students Jobs Portal
 
                 <i class="fa-solid fa-circle-check"></i>
 
-                Verified Opportunities
+                Registered Companies
 
             </div>
 
@@ -242,17 +242,25 @@ Companies - RCTI Students Jobs Portal
 
         <div class="company-grid" id="companyGrid">
 
+            {% if companies %}
 
-            <!-- TCS -->
+            {% for company in companies %}
 
-            <div class="company-card" data-company="Tata Consultancy Services TCS" data-location="Ahmedabad">
+            <div class="company-card" data-company="{{ company.company_name }}"
+                data-location="{{ company.address or '' }}">
+
+                <!-- Card Top -->
 
                 <div class="card-top">
 
                     <span class="hiring-badge">
+
                         <i class="fa-solid fa-circle"></i>
-                        Hiring
+
+                        Registered
+
                     </span>
+
 
                     <button type="button" class="save-company" aria-label="Save company">
 
@@ -262,40 +270,101 @@ Companies - RCTI Students Jobs Portal
 
                 </div>
 
+
+                <!-- Company Logo -->
+
                 <div class="company-logo">
 
-                    <img src="{{ url_for('static', filename='images/tcs.png') }}" alt="Tata Consultancy Services">
+                    {% if company.logo %}
+
+                    <img src="{{ url_for(
+                                    'static',
+                                    filename='uploads/company_logos/' + company.logo
+                                ) }}" alt="{{ company.company_name }}">
+
+                    {% else %}
+
+                    <i class="fa-solid fa-building"></i>
+
+                    {% endif %}
 
                 </div>
+
+
+                <!-- Company Name -->
 
                 <h3>
-                    Tata Consultancy Services
-                    <small>(TCS)</small>
+                    {{ company.company_name }}
                 </h3>
 
+
+                <!-- Company Location -->
+
                 <div class="company-location">
 
                     <i class="fa-solid fa-location-dot"></i>
 
-                    Ahmedabad, Gujarat
+                    {% if company.address %}
+
+                    {{ company.address }}
+
+                    {% else %}
+
+                    Location not provided
+
+                    {% endif %}
 
                 </div>
+
+
+                <!-- Company Details -->
 
                 <div class="company-details">
 
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
+                    {% if company.email %}
 
                     <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
+
+                        <i class="fa-solid fa-envelope"></i>
+
+                        {{ company.email }}
+
                     </span>
+
+                    {% endif %}
+
+
+                    {% if company.phone %}
+
+                    <span>
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        {{ company.phone }}
+
+                    </span>
+
+                    {% endif %}
+
+
+                    {% if company.website %}
+
+                    <span>
+
+                        <i class="fa-solid fa-globe"></i>
+
+                        Website Available
+
+                    </span>
+
+                    {% endif %}
 
                 </div>
 
-                <a href="/jobs" class="view-jobs">
+
+                <!-- View Jobs -->
+
+                <a href="{{ url_for('all_jobs') }}" class="view-jobs">
 
                     View Jobs
 
@@ -305,1011 +374,38 @@ Companies - RCTI Students Jobs Portal
 
             </div>
 
+            {% endfor %}
 
-            <!-- INFOSYS -->
 
-            <div class="company-card" data-company="Infosys" data-location="Gandhinagar">
+            {% else %}
 
-                <div class="card-top">
+            <!-- No Registered Companies -->
 
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
+            <div class="no-companies" id="noRegisteredCompanies">
 
-                    <button type="button" class="save-company" aria-label="Save company">
+                <i class="fa-solid fa-building"></i>
 
-                        <i class="fa-regular fa-bookmark"></i>
+                <h3>
+                    No Companies Registered Yet
+                </h3>
 
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/infosys.png') }}" alt="Infosys">
-
-                </div>
-
-                <h3>Infosys</h3>
-
-                <div class="company-location">
-
-                    <i class="fa-solid fa-location-dot"></i>
-
-                    Gandhinagar, Gujarat
-
-                </div>
-
-                <div class="company-details">
-
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-
-                    View Jobs
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </a>
+                <p>
+                    Registered companies will appear here
+                    once they create an account.
+                </p>
 
             </div>
 
-
-            <!-- WIPRO -->
-
-            <div class="company-card" data-company="Wipro" data-location="Gandhinagar">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/wipro.png') }}" alt="Wipro">
-
-                </div>
-
-                <h3>Wipro</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Gandhinagar, Gujarat
-                </div>
-
-                <div class="company-details">
-
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- HCL -->
-
-            <div class="company-card" data-company="HCL Technologies HCL" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/hcl.png') }}" alt="HCL Technologies">
-
-                </div>
-
-                <h3>HCL Technologies</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- TECH MAHINDRA -->
-
-            <div class="company-card" data-company="Tech Mahindra" data-location="Gandhinagar">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/techmahindra.png') }}" alt="Tech Mahindra">
-
-                </div>
-
-                <h3>Tech Mahindra</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Gandhinagar, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- CYBAGE -->
-
-            <div class="company-card" data-company="Cybage Software Cybage" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/cybage.png') }}" alt="Cybage Software">
-
-                </div>
-
-                <h3>Cybage Software</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- L&T -->
-
-            <div class="company-card" data-company="L&T Infotech LT Infotech" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/ltinfotech.png') }}" alt="L&T Infotech">
-
-                </div>
-
-                <h3>L&T Infotech</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- MPHASIS -->
-
-            <div class="company-card" data-company="Mphasis" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/mphasis.png') }}" alt="Mphasis">
-
-                </div>
-
-                <h3>Mphasis</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- BIRLASOFT -->
-
-            <div class="company-card" data-company="Birlasoft" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/birlasoft.png') }}" alt="Birlasoft">
-
-                </div>
-
-                <h3>Birlasoft</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- EINFOCHIPS -->
-
-            <div class="company-card" data-company="eInfochips" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/einfochips.png') }}" alt="eInfochips">
-
-                </div>
-
-                <h3>eInfochips</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- ZENSAR -->
-
-            <div class="company-card" data-company="Zensar Technologies Zensar" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/zensar.png') }}" alt="Zensar Technologies">
-
-                </div>
-
-                <h3>Zensar Technologies</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- NUCLEUS -->
-
-            <div class="company-card" data-company="Nucleus Software Nucleus" data-location="Gandhinagar">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/nucleus.png') }}" alt="Nucleus Software">
-
-                </div>
-
-                <h3>Nucleus Software</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Gandhinagar, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- INTELLISWIFT -->
-
-            <div class="company-card" data-company="Intelliswift Software Intelliswift" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/intelliswift.png') }}" alt="Intelliswift Software">
-
-                </div>
-
-                <h3>Intelliswift Software</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- EGAIN -->
-
-            <div class="company-card" data-company="eGain Corporation eGain" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/egain.png') }}" alt="eGain Corporation">
-
-                </div>
-
-                <h3>eGain Corporation</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- INTELLECT -->
-
-            <div class="company-card" data-company="Intellect Design Arena Intellect" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/intellect.png') }}" alt="Intellect Design Arena">
-
-                </div>
-
-                <h3>Intellect Design Arena</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- CYGNET -->
-
-            <div class="company-card" data-company="Cygnet Infotech Cygnet" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/cygnet.png') }}" alt="Cygnet Infotech">
-
-                </div>
-
-                <h3>Cygnet Infotech</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- PERSISTENT -->
-
-            <div class="company-card" data-company="Persistent Systems Persistent" data-location="Gandhinagar">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/persistent.png') }}" alt="Persistent Systems">
-
-                </div>
-
-                <h3>Persistent Systems</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Gandhinagar, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- KPIT -->
-
-            <div class="company-card" data-company="KPIT Technologies KPIT" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/kpit.png') }}" alt="KPIT Technologies">
-
-                </div>
-
-                <h3>KPIT Technologies</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- METTL -->
-
-            <div class="company-card" data-company="Mettl" data-location="Gandhinagar">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/mettl.png') }}" alt="Mettl">
-
-                </div>
-
-                <h3>Mettl</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Gandhinagar, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <!-- TATVASOFT -->
-
-            <div class="company-card" data-company="TatvaSoft" data-location="Ahmedabad">
-
-                <div class="card-top">
-
-                    <span class="hiring-badge">
-                        <i class="fa-solid fa-circle"></i>
-                        Hiring
-                    </span>
-
-                    <button type="button" class="save-company" aria-label="Save company">
-
-                        <i class="fa-regular fa-bookmark"></i>
-
-                    </button>
-
-                </div>
-
-                <div class="company-logo">
-
-                    <img src="{{ url_for('static', filename='images/tatvasoft.png') }}" alt="TatvaSoft">
-
-                </div>
-
-                <h3>TatvaSoft</h3>
-
-                <div class="company-location">
-                    <i class="fa-solid fa-location-dot"></i>
-                    Ahmedabad, Gujarat
-                </div>
-
-                <div class="company-details">
-                    <span>
-                        <i class="fa-solid fa-briefcase"></i>
-                        IT & Software
-                    </span>
-
-                    <span>
-                        <i class="fa-solid fa-users"></i>
-                        Multiple Roles
-                    </span>
-                </div>
-
-                <a href="/jobs" class="view-jobs">
-                    View Jobs
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
+            {% endif %}
 
         </div>
 
 
-        <!-- No Result -->
+        <!-- ==================================================
+             NO SEARCH RESULT
+        ================================================== -->
 
-        <div class="no-results" id="noCompanies">
+        <div class="no-results" id="noCompanySearchResults" style="display: none;">
 
             <div class="no-results-icon">
 
@@ -1341,7 +437,7 @@ Companies - RCTI Students Jobs Portal
 
 
 <!-- ==========================================================
-     CTA
+     CTA SECTION
 ========================================================== -->
 
 <section class="company-cta">
@@ -1355,6 +451,7 @@ Companies - RCTI Students Jobs Portal
                 <i class="fa-solid fa-rocket"></i>
 
             </div>
+
 
             <div class="cta-text">
 
@@ -1373,7 +470,8 @@ Companies - RCTI Students Jobs Portal
 
             </div>
 
-            <a href="/jobs" class="cta-button">
+
+            <a href="{{ url_for('all_jobs') }}" class="cta-button">
 
                 Explore Jobs
 

@@ -928,10 +928,7 @@ def register_auth_routes(app):
 
             conn.close()
 
-            if admin and check_password_hash(
-                admin["password"],
-                password
-            ):
+            if admin and admin["password"] == password:
 
                 session["admin_id"] = admin["id"]
 

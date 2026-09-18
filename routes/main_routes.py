@@ -66,4 +66,21 @@ def register_main_routes(app):
 
     @app.route("/companies")
     def companies():
-        return render_template("companies.html")
+
+        conn = get_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+            SELECT *
+            FROM companies
+            ORDER BY id DESC
+        """)
+
+        companies = cursor.fetchall()
+
+        conn.close()
+
+        return render_template(
+            "companies.html",
+            companies=companies
+        )

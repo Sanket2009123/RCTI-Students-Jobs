@@ -165,7 +165,7 @@ def create_database():
                 (
                     "Administrator",
                     "admin@gmail.com",
-                    "RCTI"
+                    "Admin@2026"
                 )
             )
 
